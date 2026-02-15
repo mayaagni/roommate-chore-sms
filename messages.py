@@ -23,7 +23,7 @@ floors that need mopping!
 - entryway
 - dining room
 
-lil heads up \u2014 try to mop AFTER whoever's vacuuming this week does their thing so the floors are clear first! just coordinate w them. tysm!! \U0001f4ab"""
+lil heads up \u2014 {vacuum_person} is vacuuming this week so try to mop AFTER she's done so the floors are clear first! just coordinate w her. tysm!! \U0001f4ab"""
 
 STEEL_MESSAGE = """hiii {name}!! \U0001fa9e it's your month for stainless steel duty ~
 
@@ -56,8 +56,8 @@ def get_vacuum_message(name: str, include_hallway: bool) -> str:
     return VACUUM_MESSAGE.format(name=name, hallway_note=hallway_note)
 
 
-def get_mopping_message(name: str) -> str:
-    return MOPPING_MESSAGE.format(name=name)
+def get_mopping_message(name: str, vacuum_person: str) -> str:
+    return MOPPING_MESSAGE.format(name=name, vacuum_person=vacuum_person)
 
 
 def get_steel_message(name: str) -> str:

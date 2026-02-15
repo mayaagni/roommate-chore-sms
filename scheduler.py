@@ -54,7 +54,7 @@ def get_chores_for_week(target_date: date) -> list[dict]:
         assignments.append({
             "name": mop_person,
             "chore": "Mopping",
-            "message": get_mopping_message(mop_person),
+            "message": get_mopping_message(mop_person, vacuum_person),
         })
 
     # ── Monthly (every 4 weeks): Stainless Steel ──
