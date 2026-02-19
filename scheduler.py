@@ -7,6 +7,7 @@ from datetime import date, timedelta
 from config import (
     SCHEDULE_START,
     VACUUM_ROTATION,
+    WIPEDOWN_ROTATION,
     MOPPING_ROTATION,
     MOPPING_START_WEEK,
     STEEL_ROTATION,
@@ -17,6 +18,7 @@ from config import (
 )
 from messages import (
     get_vacuum_message,
+    get_wipedown_message,
     get_mopping_message,
     get_steel_message,
     get_bathroom_message,
@@ -44,6 +46,14 @@ def get_chores_for_week(target_date: date) -> list[dict]:
         "name": vacuum_person,
         "chore": "Vacuuming",
         "message": get_vacuum_message(vacuum_person, include_hallway),
+    })
+
+    # ── Weekly: Wipe-down ──
+    wipe_person = WIPEDOWN_ROTATION[week_num % len(WIPEDOWN_ROTATION)]
+    assignments.append({
+        "name": wipe_person,
+        "chore": "Wipe-down",
+        "message": get_wipedown_message(wipe_person),
     })
 
     # ── Monthly (every 4 weeks): Mopping ──

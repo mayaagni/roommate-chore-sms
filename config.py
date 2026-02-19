@@ -28,6 +28,9 @@ SCHEDULE_START = date(2025, 2, 17)
 # Vacuuming: weekly, all 4 roommates
 VACUUM_ROTATION = ["Sophie", "Bri", "Alizeh", "Maya"]
 
+# Wipe-down: weekly, all 4 roommates (offset from vacuum)
+WIPEDOWN_ROTATION = ["Bri", "Alizeh", "Maya", "Sophie"]
+
 # Mopping: monthly (every 4 weeks), all 4 roommates
 # Starts Week 3 (first full March week) since Maya mopped ~2 weeks before start
 MOPPING_ROTATION = ["Bri", "Alizeh", "Maya", "Sophie"]
@@ -38,7 +41,7 @@ STEEL_ROTATION = ["Alizeh", "Maya", "Sophie", "Bri"]
 STEEL_START_WEEK = 3
 
 # Bathroom: every 2 weeks, only Maya/Sophie/Bri
-BATHROOM_ROTATION = ["Maya", "Sophie", "Bri"]
+BATHROOM_ROTATION = ["Bri", "Maya", "Sophie"]
 BATHROOM_START_WEEK = 2  # starts week 2
 
 # Common Hallway: included when Maya or Bri vacuum

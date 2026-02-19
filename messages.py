@@ -51,6 +51,21 @@ here's the full list:
 slay tysm!! \u2728"""
 
 
+WIPEDOWN_MESSAGE = """hiii {name}!! \U0001e4ff you're on wipe-down duty this week ~
+
+here's what needs a quick wipe!
+- kitchen counters
+- dining table
+- console table
+- if there are any spills on the floor, just a quick wipe (no full mop needed!)
+
+quick and easy 5 min tops. tysm!! \U0001f495"""
+
+
+def get_wipedown_message(name: str) -> str:
+    return WIPEDOWN_MESSAGE.format(name=name)
+
+
 def get_vacuum_message(name: str, include_hallway: bool) -> str:
     hallway_note = VACUUM_HALLWAY_ADDON if include_hallway else ""
     return VACUUM_MESSAGE.format(name=name, hallway_note=hallway_note)
