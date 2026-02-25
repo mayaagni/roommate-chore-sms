@@ -45,7 +45,9 @@ Here's exactly what each person will receive as a text. Edit the templates in `m
 > - entryway
 > - dining room
 >
-> lil heads up — {vacuum_person} is vacuuming this week so try to mop AFTER she's done so the floors are clear first! just coordinate w her. tysm!! 💫
+> lil heads up — {vacuum_person} is vacuuming this week so try to mop AFTER she's done so the floors are clear first! just coordinate w her.
+>
+> also!! if the fridge is looking a bit full or dirty, rally the girls for a group fridge clean out 🧊✨ tysm!! 💫
 
 ---
 
@@ -63,6 +65,9 @@ Here's exactly what each person will receive as a text. Edit the templates in `m
 > - take out the burners
 > - wipe down all the steel underneath/around them
 > - pop the burners back in
+>
+> part 3 — microwave:
+> - wipe down the inside of the microwave!
 >
 > ty queen!! 👑
 

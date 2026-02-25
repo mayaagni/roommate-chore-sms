@@ -23,7 +23,9 @@ floors that need mopping!
 - entryway
 - dining room
 
-lil heads up \u2014 {vacuum_person} is vacuuming this week so try to mop AFTER she's done so the floors are clear first! just coordinate w her. tysm!! \U0001f4ab"""
+lil heads up \u2014 {vacuum_person} is vacuuming this week so try to mop AFTER she's done so the floors are clear first! just coordinate w her.
+
+also!! if the fridge is looking a bit full or dirty, rally the girls for a group fridge clean out \U0001f9ca\u2728 tysm!! \U0001f4ab"""
 
 STEEL_MESSAGE = """hiii {name}!! \U0001fa9e it's your month for stainless steel duty ~
 
@@ -37,6 +39,9 @@ part 2 \u2014 burner area:
 - take out the burners
 - wipe down all the steel underneath/around them
 - pop the burners back in
+
+part 3 \u2014 microwave:
+- wipe down the inside of the microwave!
 
 ty queen!! \U0001f451"""
 
