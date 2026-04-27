@@ -7,8 +7,8 @@ Usage:
   python main.py send --dry-run   # Preview what texts would be sent this week
   python main.py send             # Actually send the texts for this week
 
-Automation (cron / GitHub Actions / etc.):
-  Run `python main.py send` every Monday morning to text everyone their chores.
+Automation (GitHub Actions):
+  Runs every Thursday at 6pm ET automatically.
 """
 
 import sys
@@ -30,14 +30,15 @@ def main():
     elif command == "send":
         dry_run = "--dry-run" in sys.argv
         today = date.today()
-        chores = get_chores_for_week(today)
+        results = get_chores_for_week(today)
 
         print(f"\U0001f4c5 Chores for week of {today.strftime('%B %d, %Y')}:\n")
-        for c in chores:
-            print(f"  \u2022 {c['chore']}: {c['name']}")
+        for r in results:
+            chores_str = ", ".join(r["chores"])
+            print(f"  \u2022 {r['name']}: {chores_str}")
         print()
 
-        send_chore_reminders(chores, dry_run=dry_run)
+        send_chore_reminders(results, dry_run=dry_run)
 
         if dry_run:
             print("\u2139\ufe0f  This was a dry run. Remove --dry-run to send real texts.")

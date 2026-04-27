@@ -1,6 +1,7 @@
 """
 Chore Scheduler
-Determines who is responsible for each chore in a given week.
+Determines who is responsible for each chore in a given week,
+then builds one consolidated message per person.
 """
 
 from datetime import date, timedelta
@@ -14,15 +15,15 @@ from config import (
     STEEL_START_WEEK,
     BATHROOM_ROTATION,
     BATHROOM_START_WEEK,
-    HALLWAY_PEOPLE,
+    LAUNDRY_ROTATION,
+    LAUNDRY_START_WEEK,
+    FRIDGE_START_WEEK,
+    ROOMMATES,
 )
-from messages import (
-    get_vacuum_message,
-    get_wipedown_message,
-    get_mopping_message,
-    get_steel_message,
-    get_bathroom_message,
-)
+from messages import build_person_message
+
+
+ALL_NAMES = list(ROOMMATES.keys())
 
 
 def get_week_number(target_date: date) -> int:
@@ -33,63 +34,86 @@ def get_week_number(target_date: date) -> int:
 
 def get_chores_for_week(target_date: date) -> list[dict]:
     """
-    Returns a list of chore assignments for the week containing target_date.
-    Each item: {"name": str, "chore": str, "message": str}
+    Returns a list of per-person messages for the week.
+    Each item: {"name": str, "message": str, "chores": list[str]}
     """
     week_num = get_week_number(target_date)
-    assignments = []
+
+    # Collect individual chore assignments: {name: [{"chore": str, "vacuum_person": str}]}
+    personal = {name: [] for name in ALL_NAMES}
+    group_chores = []
 
     # ── Weekly: Vacuuming ──
     vacuum_person = VACUUM_ROTATION[week_num % len(VACUUM_ROTATION)]
-    include_hallway = vacuum_person in HALLWAY_PEOPLE
-    assignments.append({
-        "name": vacuum_person,
-        "chore": "Vacuuming",
-        "message": get_vacuum_message(vacuum_person, include_hallway),
-    })
+    personal[vacuum_person].append({"chore": "Vacuuming"})
 
     # ── Weekly: Wipe-down ──
     wipe_person = WIPEDOWN_ROTATION[week_num % len(WIPEDOWN_ROTATION)]
-    assignments.append({
-        "name": wipe_person,
-        "chore": "Wipe-down",
-        "message": get_wipedown_message(wipe_person),
-    })
+    personal[wipe_person].append({"chore": "Wipe-down"})
 
-    # ── Monthly (every 4 weeks): Mopping ──
+    # ── Biweekly: Mopping ──
     weeks_since_mop_start = week_num - MOPPING_START_WEEK
-    if weeks_since_mop_start >= 0 and weeks_since_mop_start % 4 == 0:
-        mop_index = weeks_since_mop_start // 4
+    if weeks_since_mop_start >= 0 and weeks_since_mop_start % 2 == 0:
+        mop_index = weeks_since_mop_start // 2
         mop_person = MOPPING_ROTATION[mop_index % len(MOPPING_ROTATION)]
-        assignments.append({
-            "name": mop_person,
-            "chore": "Mopping",
-            "message": get_mopping_message(mop_person, vacuum_person),
-        })
+        personal[mop_person].append({"chore": "Mopping"})
 
     # ── Monthly (every 4 weeks): Stainless Steel ──
     weeks_since_steel_start = week_num - STEEL_START_WEEK
     if weeks_since_steel_start >= 0 and weeks_since_steel_start % 4 == 0:
         steel_index = weeks_since_steel_start // 4
         steel_person = STEEL_ROTATION[steel_index % len(STEEL_ROTATION)]
-        assignments.append({
-            "name": steel_person,
-            "chore": "Stainless Steel Clean",
-            "message": get_steel_message(steel_person),
-        })
+        personal[steel_person].append({"chore": "Stainless Steel"})
+
+    # ── Biweekly: Wash Rags & Towels ──
+    weeks_since_laundry_start = week_num - LAUNDRY_START_WEEK
+    if weeks_since_laundry_start >= 0 and weeks_since_laundry_start % 2 == 0:
+        laundry_index = weeks_since_laundry_start // 2
+        laundry_person = LAUNDRY_ROTATION[laundry_index % len(LAUNDRY_ROTATION)]
+        personal[laundry_person].append({"chore": "Wash Rags & Towels"})
 
     # ── Biweekly: Bathroom ──
     weeks_since_bath_start = week_num - BATHROOM_START_WEEK
     if weeks_since_bath_start >= 0 and weeks_since_bath_start % 2 == 0:
         bath_index = weeks_since_bath_start // 2
         bath_person = BATHROOM_ROTATION[bath_index % len(BATHROOM_ROTATION)]
-        assignments.append({
-            "name": bath_person,
-            "chore": "Bathroom Deep Clean",
-            "message": get_bathroom_message(bath_person),
+        personal[bath_person].append({"chore": "Bathroom"})
+
+    # ── Monthly (every 4 weeks): Fridge Clean Out (group) ──
+    weeks_since_fridge_start = week_num - FRIDGE_START_WEEK
+    if weeks_since_fridge_start >= 0 and weeks_since_fridge_start % 4 == 0:
+        group_chores.append("Fridge Clean Out")
+
+    # Build one message per person (everyone gets a text every week)
+    results = []
+    for name in ALL_NAMES:
+
+        # Build the "others" dict: what everyone else is doing
+        others = {}
+        for other in ALL_NAMES:
+            if other == name:
+                continue
+            other_chore_names = [c["chore"] for c in personal[other]]
+            others[other] = other_chore_names
+
+        message = build_person_message(
+            name=name,
+            personal_chores=personal[name],
+            group_chores=group_chores,
+            others=others,
+        )
+
+        chore_names = [c["chore"] for c in personal[name]]
+        if group_chores:
+            chore_names.extend(group_chores)
+
+        results.append({
+            "name": name,
+            "chores": chore_names,
+            "message": message,
         })
 
-    return assignments
+    return results
 
 
 def preview_schedule(weeks: int = 12):
@@ -100,12 +124,13 @@ def preview_schedule(weeks: int = 12):
     for w in range(weeks):
         week_date = SCHEDULE_START + timedelta(weeks=w)
         week_end = week_date + timedelta(days=6)
-        chores = get_chores_for_week(week_date)
+        results = get_chores_for_week(week_date)
 
         print(f"\n\U0001f4c6 Week {w + 1}: {week_date.strftime('%b %d')} \u2013 {week_end.strftime('%b %d, %Y')}")
         print("-" * 50)
-        for c in chores:
-            print(f"  {c['chore']:.<30} {c['name']}")
+        for r in results:
+            chores_str = ", ".join(r["chores"])
+            print(f"  {r['name']:.<20} {chores_str}")
 
     print("\n" + "=" * 70)
 

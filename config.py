@@ -31,10 +31,13 @@ VACUUM_ROTATION = ["Sophie", "Bri", "Alizeh", "Maya"]
 # Wipe-down: weekly, all 4 roommates (offset from vacuum)
 WIPEDOWN_ROTATION = ["Bri", "Alizeh", "Maya", "Sophie"]
 
-# Mopping: monthly (every 4 weeks), all 4 roommates
-# Starts Week 3 (first full March week) since Maya mopped ~2 weeks before start
+# Mopping: every 2 weeks, all 4 roommates
 MOPPING_ROTATION = ["Bri", "Alizeh", "Maya", "Sophie"]
-MOPPING_START_WEEK = 3  # week offset from SCHEDULE_START
+MOPPING_START_WEEK = 3
+
+# Wash rags & towels: every 2 weeks, all 4 roommates
+LAUNDRY_ROTATION = ["Maya", "Sophie", "Bri", "Alizeh"]
+LAUNDRY_START_WEEK = 4
 
 # Stainless Steel: monthly (every 4 weeks), all 4 roommates
 STEEL_ROTATION = ["Alizeh", "Maya", "Sophie", "Bri"]
@@ -43,6 +46,9 @@ STEEL_START_WEEK = 3
 # Bathroom: every 2 weeks, only Maya/Sophie/Bri
 BATHROOM_ROTATION = ["Bri", "Maya", "Sophie"]
 BATHROOM_START_WEEK = 2  # starts week 2
+
+# Fridge clean out: every 4 weeks, all 4 participate (group message)
+FRIDGE_START_WEEK = 5
 
 # Common Hallway: included when Maya or Bri vacuum
 HALLWAY_PEOPLE = {"Maya", "Bri"}

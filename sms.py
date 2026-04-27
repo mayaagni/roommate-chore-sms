@@ -1,6 +1,6 @@
 """
 SMS Sender using Twilio.
-Sends chore reminder texts to roommates.
+Sends one consolidated chore reminder per person.
 
 Setup:
   1. pip install twilio
@@ -8,7 +8,7 @@ Setup:
      - TWILIO_ACCOUNT_SID
      - TWILIO_AUTH_TOKEN
      - TWILIO_PHONE_NUMBER  (your Twilio phone number, e.g. "+15551234567")
-  3. Update phone numbers in config.py
+  3. Add phone numbers in .env
 """
 
 import os
@@ -24,7 +24,7 @@ def send_sms(to_number: str, message: str, dry_run: bool = False) -> bool:
     """Send an SMS via Twilio. Returns True on success."""
     if dry_run:
         print(f"  [DRY RUN] Would send to {to_number}:")
-        print(f"  {message[:100]}...")
+        print(f"  {message}")
         return True
 
     try:
@@ -42,21 +42,23 @@ def send_sms(to_number: str, message: str, dry_run: bool = False) -> bool:
         return False
 
 
-def send_chore_reminders(assignments: list[dict], dry_run: bool = True):
+def send_chore_reminders(person_messages: list[dict], dry_run: bool = True):
     """
-    Send SMS reminders for all chore assignments.
+    Send one consolidated SMS per person.
 
     Args:
-        assignments: list of dicts from scheduler.get_chores_for_week()
+        person_messages: list of dicts from scheduler.get_chores_for_week()
+                         each has {"name", "chores", "message"}
         dry_run: if True, just prints messages without sending
     """
     print(f"\n\U0001f4f1 Sending chore reminders ({'DRY RUN' if dry_run else 'LIVE'})...\n")
 
-    for a in assignments:
-        name = a["name"]
+    for pm in person_messages:
+        name = pm["name"]
         phone = ROOMMATES[name]["phone"]
-        message = a["message"]
+        message = pm["message"]
+        chores_str = ", ".join(pm["chores"])
 
-        print(f"\u2192 {name} \u2014 {a['chore']}")
+        print(f"\u2192 {name} \u2014 {chores_str}")
         send_sms(phone, message, dry_run=dry_run)
         print()

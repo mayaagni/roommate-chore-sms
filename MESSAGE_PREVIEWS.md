@@ -1,89 +1,57 @@
 # Message Previews
 
-Here's exactly what each person will receive as a text. Edit the templates in `messages.py`.
+Each person gets **one text per week** with their chores, any group chores, and what everyone else is doing. Edit descriptions in `messages.py`.
 
 ---
 
-## 1. Vacuuming (weekly)
+## Example: Regular week (Apr 30)
 
-> hiii {name}!! 🧹 you're on vacuum duty this week ~
+Maya has Wipe-down, Sophie has Laundry, Bri has Bathroom, Alizeh has Vacuuming.
+
+**Maya's text:**
+
+> hi Maya!!
 >
-> here's what needs a good vacuum!
-> - kitchen floor
-> - entryway
-> - dining area
-> - living room
+> your chores for this weekend:
+> 1. Wipe-down — please wipe kitchen counters, dining table, console table, and any floor spills.
 >
-> tysm you're an angel!! 💕
-
-**If the person is Maya or Bri**, an extra bullet is added:
-
-> - also the shared hallway too if you're maya/bri :)!
+> Sophie's chores: Wash Rags & Towels
+> Bri's chores: Bathroom
+> Alizeh's chores: Vacuuming
 
 ---
 
-## 2. Wipe-down (weekly)
+## Example: Fridge week (May 21)
 
-> hiii {name}!! you're on wipe-down duty this week ~
->
-> here's what needs a quick wipe!
-> - kitchen counters
-> - dining table
-> - console table
-> - if there are any spills on the floor, just give them a quick wipe (no full mop needed!)
->
-> takes like 5 min tops. tysm!! 💕
+Bri has Vacuuming + Hallway, Sophie has Mopping, Alizeh has Wipe-down, everyone has Fridge.
 
----
+**Bri's text:**
 
-## 3. Mopping (every 4 weeks)
-
-> hiii {name}!! 🪣 it's your month to mop :)
+> hi Bri!!
 >
-> floors that need mopping!
-> - kitchen
-> - entryway
-> - dining room
+> your chores for this weekend:
+> 1. Vacuuming — please vacuum kitchen floor, entryway, dining area, living room. Maya/Bri also do the shared hallway.
 >
-> lil heads up — {vacuum_person} is vacuuming this week so try to mop AFTER she's done so the floors are clear first! just coordinate w her.
+> group:
+> 1. Fridge Clean Out — everyone get together to clear out their old/expired stuff.
 >
-> also!! if the fridge is looking a bit full or dirty, rally the girls for a group fridge clean out 🧊✨ tysm!! 💫
+> Maya's chores: none
+> Sophie's chores: Mopping
+> Alizeh's chores: Wipe-down
 
 ---
 
-## 4. Stainless Steel Clean (every 4 weeks)
+## Chore descriptions
 
-> hiii {name}!! 🪞 it's your month for stainless steel duty ~
->
-> part 1 — stainless steel surfaces (grab the stainless steel wipes!):
-> - fridge exterior
-> - steel plate next to the burner
-> - oven exterior
-> - dishwasher exterior
->
-> part 2 — burner area:
-> - take out the burners
-> - wipe down all the steel underneath/around them
-> - pop the burners back in
->
-> part 3 — microwave:
-> - wipe down the inside of the microwave!
->
-> ty queen!! 👑
-
----
-
-## 5. Bathroom Clean (every 2 weeks)
-
-> hiii {name}!! 🚿 you're up for the biweekly bathroom clean!!
->
-> here's the full list:
-> - sink/tub — scrubbing bubbles spray + scrub daddy scrub
-> - toilet — bowl, seat, underseat, and base
-> - mirror — wipe
-> - swap out the rags for fresh ones
->
-> slay tysm!! ✨
+| Chore | Description |
+|-------|-------------|
+| Vacuuming | please vacuum kitchen floor, entryway, dining area, living room. Maya/Bri also do the shared hallway. |
+| Wipe-down | please wipe kitchen counters, dining table, console table, and any floor spills. |
+| Mopping | please mop kitchen, entryway, dining room. coordinate after that week's vacuum. |
+| Stainless Steel | please wipe the steel on fridge, oven, dishwasher, burner area, and inside the microwave. |
+| Wash Rags & Towels | please gather communal rags/towels and throw them in the wash. |
+| Bathroom | please thoroughly clean sink/tub, toilet, mirror, floor, and swap rags. |
+| Fridge Clean Out | everyone get together to clear out their old/expired stuff. |
 
 ---
 
@@ -93,10 +61,10 @@ Here's exactly what each person will receive as a text. Edit the templates in `m
 |-------|-----------|----------------|
 | Vacuuming | Weekly | Sophie → Bri → Alizeh → Maya |
 | Wipe-down | Weekly | Bri → Alizeh → Maya → Sophie |
-| Mopping | Every 4 weeks | Bri → Alizeh → Maya → Sophie |
+| Mopping | Every 2 weeks | Bri → Alizeh → Maya → Sophie |
 | Stainless Steel | Every 4 weeks | Alizeh → Maya → Sophie → Bri |
+| Wash Rags & Towels | Every 2 weeks | Maya → Sophie → Bri → Alizeh |
 | Bathroom | Every 2 weeks | Bri → Maya → Sophie |
+| Fridge Clean Out | Every 4 weeks | All 4 (group message) |
 
-*{name} gets replaced with the person's actual name when the text is sent.*
-
-*To edit a message, open `messages.py` and change the template string.*
+*To edit chore descriptions, open `messages.py` and change `CHORE_DESCRIPTIONS` or `GROUP_DESCRIPTIONS`.*
